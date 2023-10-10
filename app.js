@@ -26,9 +26,9 @@ function addUser() {
 
 window.addEventListener("DOMContentLoaded", () => {
     axios.get("https://crudcrud.com/api/482ecc20abe7477a88e458fd5ca81571/users")
-        .then((response) =>{
+        .then((response) => {
             console.log(response)
-            for(let i=0; i<response.data.length; i++){
+            for (let i = 0; i < response.data.length; i++) {
                 ShowNewUser(response.data[i]);
             }
         })
@@ -38,33 +38,51 @@ window.addEventListener("DOMContentLoaded", () => {
 })
 
 
-function ShowNewUser(u){
-    document.getElementById("name").value="";
+function ShowNewUser(u) {
+    document.getElementById("name").value = "";
 
-    document.getElementById("email").value="";
+    document.getElementById("email").value = "";
 
-    document.getElementById("phn").value="";
+    document.getElementById("phn").value = "";
 
     let ul = document.getElementById("ul")
 
-   
 
-        let li = document.createElement("li");
-        let t = document.createTextNode( u.name+" "+ u.email +" "+ u.phone);
-        console.log(t);
 
-        li.appendChild(t);
+    let li = document.createElement("li");
+    let t = document.createTextNode(u.name + " " + u.email + " " + u.phone);
+    console.log(t);
 
-        var deleteButton = document.createElement('button');
-        deleteButton.innerText = 'Delete';
+    li.appendChild(t);
 
-        var editbtn = document.createElement('button');
-        editbtn.innerText = 'Edit';
+    var deleteButton = document.createElement('button');
+    deleteButton.innerText = 'Delete';
+    let list = document.getElementById("ul")
+    deleteButton.addEventListener("click", function(){
+        // deleteUser(u);
+        axios.delete(`https://crudcrud.com/api/482ecc20abe7477a88e458fd5ca81571/users/${u._id}`)
+        .then((response) => {
+            li.remove();
+        })
+        .catch((error) => console.log(error));
 
-        li.appendChild(deleteButton);
-        li.appendChild(editbtn);
-        ul.appendChild(li);
-    
+    })
 
-    
+    var editbtn = document.createElement('button');
+    editbtn.innerText = 'Edit';
+
+    li.appendChild(deleteButton);
+    li.appendChild(editbtn);
+    ul.appendChild(li);
+
+
+
 }
+
+// function deleteUser(x){
+//     axios.delete(`https://crudcrud.com/api/482ecc20abe7477a88e458fd5ca81571/users/${x._id}`)
+//         .then((response) => {
+//             li.remove();
+//         })
+//         .catch((error) => console.log(error));
+// }
